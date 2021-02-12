@@ -6,14 +6,14 @@
 	prompt3: .asciiz "Enter the array type \n 1 to int \n 2 to char: \n"
 	prompt4: .asciiz "Enter the array one by one \n"
 	prompt5: .asciiz "the first element in array is: \n"
-	prompt6: .asciiz "Successful Array Values\n"
+	prompt6: .asciiz "\nSuccessful Array Values\n"
 	prompt7: .asciiz "Enter The operation you want do\n 1 to selection sort\n 2 to bubble sort\n"
 	prompt8: .asciiz "Array before selection sort \n"
 	prompt9: .asciiz "\nIf You Want To Search With Binary Search \nPress 1\n"
 	prompt10: .asciiz "Enter The Value Of The Element That You Want To Search For\n"
 	prompt11: .asciiz "\n------Endded------\n"
-	prompt12: .asciiz "Found In Index \n"
-	prompt13: .asciiz "Not Found Element\n"
+	prompt12: .asciiz "\nFound In Index : "
+	prompt13: .asciiz "\nNot Found Element\n"
 	prompt14: .asciiz "Array after selection sort \n"
 	prompt15: .asciiz "Enter the Array all together \n"
 	prompt16: .asciiz "Array Before bubble Sort\n"
@@ -75,7 +75,7 @@ continue:
 	li $v0 , 5 # scan integer (op)
 	syscall
 	move $t4, $v0 # t4=v0
-	beq $t4, 1, selection_sort #if (op==1) goto selection_sort
+	beq $t4, 1, selection_sort #if (op==1) go to selection_sort
 	beq $t4,2,bubble_sort
 	j exit
 	
@@ -186,6 +186,7 @@ Char: # array #size =t1
 	# scan string
 	li $v0, 8 
 	la $a0,buffer # "save string in buffer"
+	addi $t1,$t1,1
 	move $a1,$t1 # send  string size
 	syscall
 	# print "Successful Array Values\n"
@@ -281,7 +282,7 @@ Char: # array #size =t1
 	move $t7,$v0
 	beq $t7,1,BinaryChar
 	j exit
-	
+		
 	BinaryChar:
 	# print Enter The Value Of The Element That You Want To Search For
 	li $v0, 4
@@ -659,13 +660,6 @@ bubble_sort_char:
 		  #assign 
 		  sb $t2,($t3)	  
 		  #test
-  		li $v0,1
-	move $a0,$t3
-	#move $a0,$t2
-	syscall
-	  li $v0,4
-	  la $a0,printTap
-	  syscall
 		  addi $t0,$t0,1
 		  j bub_loop3_cond
 		  
