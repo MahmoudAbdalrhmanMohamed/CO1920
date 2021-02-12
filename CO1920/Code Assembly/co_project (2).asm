@@ -1,6 +1,6 @@
 .data 
-	  array: .space 20000000# size of array
-	  buffer:.space 20000000
+	  array: .space 2000000# size of array
+	  buffer:.space 2000000
 	prompt1: .asciiz "Enter -1 to exit otherwise but int execution will be done: "
 	prompt2: .asciiz "Enter The Size Of the Array: \n"
 	prompt3: .asciiz "Enter the array type \n 1 to int \n 2 to char: \n"
@@ -22,6 +22,8 @@
 	printTap:.asciiz "\t"
 	massege:.asciiz "done"
 .text
+	
+main:
 	add $t3, $zero, 0 # i = 0
 	li $v0, 4 # to prompt to user 
 	la $a0, prompt1
@@ -30,8 +32,8 @@
 	li $v0, 5 #to recive from user an integer 
 	syscall
 	move $t0, $v0 # $t0 is flage
-main:
-	beq $t0 , -1, exit #$t0 is the flage
+	
+	beq $t0 , -1, exit2 #$t0 is the flage
 	li $v0, 4
 	la $a0, prompt2 # enter size of array
 	syscall
@@ -339,7 +341,7 @@ Selection_Sort_decimal:
   	sw   $t7,($sp)  # i=0 
   	la   $s3,($sp)  # s3=&i
   	# declare local array2
-  	mul  $t1,$s1,-2    # t1 = Array size* -4 
+  	mul  $t1,$s1,-4    # t1 = Array size* -4 
   	add  $sp,$sp,$t1   # free space for array 2
   	la   $t3,0($sp)    # t3 = &arr2[size]
   	# s4 = &arr2[size]-size*4 
@@ -363,11 +365,7 @@ Selection_Sort_decimal:
   	  # store the return value from min_selection in arr2[i]
   	  add  $t5,$s4,$t7 #t5=&arr2+i*4
   	  sw   $v1,($t5) 
-  	  #i++
-  	  li $v0,1
-  	  lw $a0,($t5)
-           syscall 
-  	  #j exit_for2
+  	  #i++ 
   	  addi $t0,$t0,1 
   	  sw   $t0,($s3)
   	  j    for_1
@@ -982,4 +980,11 @@ print_array_char:
 exit:
 	li $v0, 4
 	la $a0, prompt11
+	syscall
+	j main
+exit2:
+	li $v0, 4
+	la $a0, prompt11
+	syscall
+	li $v0,10
 	syscall
